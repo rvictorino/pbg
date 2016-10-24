@@ -1,2 +1,2 @@
 # pbg
-A fun tool to generate old-school pokemon battles GIF
+A fun tool to generate old-school pokemon battle GIFs
