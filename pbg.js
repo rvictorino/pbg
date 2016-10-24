@@ -10,6 +10,32 @@ class Pbg {
       throw new TypeError("Bad type given: AbstractAction expected, " + typeof action  + " given");
     }
   }
+
+  render() {
+    if(typeof this.canvas === 'undefined'){
+      throw new TypeError("Cannot render: Canvas is not defined");
+    } else {
+      //TODO render things with fabric ?
+    }
+  }
+
+  generateGif() {
+    if(typeof GIF !== 'undefined'){
+      var gif = new GIF();
+      //TODO generate all the GIFs!!!
+    } else {
+      throw new ReferenceError("GIF is not defined. Did you include gif.js ?");
+    }
+  }
+
+  // setters
+  setCanvas(canvas) {
+    if(typeof fabric !== 'undefined'){
+      this.canvas = new fabric.Canvas(canvas);
+    } else {
+      throw new ReferenceError("fabric is not defined. Did you include fabric.js ?");
+    }
+  }
 }
 
 class AbstractAction {
@@ -35,6 +61,13 @@ class UseObjectAction extends AbstractAction {
 }
 
 class FleeAction extends AbstractAction {
+  constructor(message) {
+    super();
+    this.message = message;
+  }
+}
+
+class ChoosePokemonAction extends AbstractAction {
   constructor() {
     super();
 

@@ -7,6 +7,7 @@
   <title>Pokemon Battle Generator</title>
 </head>
 <body>
+  <script src="gif.js" ></script>
   <script src="pbg.js" ></script>
   <script>
     var pbg = new Pbg();
@@ -14,6 +15,7 @@
     pbg.addAction(new AttackAction());
     pbg.addAction(new UseObjectAction());
     console.log(pbg);
+    pbg.generateGif();
   </script>
 </body>
 </html>
