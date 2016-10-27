@@ -49,7 +49,6 @@ class AbstractAction {
 class AttackAction extends AbstractAction {
   constructor() {
     super();
-
   }
 }
 
@@ -72,4 +71,37 @@ class ChoosePokemonAction extends AbstractAction {
     super();
 
   }
+}
+
+class Player {
+  constructor(){
+    this.avatar = new Image(300,300);
+    this.name = "";
+    this.health = 10;
+    this.maxHealth = 10;
+  }
+
+  constructor(name, avatar){
+    this.avatar = new Image(300,300);
+    this.avatar.src = avatar;
+    this.name = name;
+  }
+
+  setAvatar(avatar){
+    this.avatar.src = avatar;
+  }
+
+  getAvatar(){
+    return this.avatar;
+  }
+
+  setName(name){
+    this.name = name;
+  }
+
+  getName(){
+    return this.name;
+  }
+
+
 }
