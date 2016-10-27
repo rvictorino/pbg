@@ -1,6 +1,14 @@
 class Pbg {
   constructor() {
     this.actions = [];
+    //create canvas
+    if(arguments.length > 0){
+      this.setCanvas(arguments[0]);
+    } else {
+      var canvas = document.createElement("canvas");
+      canvas.setAttribute("id", "canvas_id");
+      this.setCanvas(canvas);
+    }
   }
 
   addAction(action) {
@@ -8,14 +16,6 @@ class Pbg {
       this.actions.push(action);
     } else {
       throw new TypeError("Bad type given: AbstractAction expected, " + typeof action  + " given");
-    }
-  }
-
-  render() {
-    if(typeof this.canvas === 'undefined'){
-      throw new TypeError("Cannot render: Canvas is not defined");
-    } else {
-      //TODO render things with fabric ?
     }
   }
 
