@@ -7,24 +7,22 @@
   <title>Pokemon Battle Generator</title>
 </head>
 <body>
-  <p id="testImage">
-
-  </p>
-  <canvas id="canvas" width="1080px" height="970px">
+  <div style="border: 1px black solid;display:inline-block;">
+  <canvas id="canvas" width="500px" height="450px">
+  </div>
   <script src="gif.js" ></script>
   <script src="fabric.min.js" ></script>
   <script src="pbg.js" ></script>
-  <script src="jQuery.js" ></script>
   <script>
-    var pbg = new Pbg();
+    var pbg = new Pbg("canvas");
     pbg.addAction(new AttackAction());
     pbg.addAction(new AttackAction());
     pbg.addAction(new UseObjectAction());
+    pbg.setPlayer();
+    pbg.setOpponent();
+    pbg.play();
     console.log(pbg);
     pbg.generateGif();
-    var player = new Player();
-    player.setAvatar("images/test.png");
-    $("#testImage").html(player.avatar);
   </script>
 
 </body>
