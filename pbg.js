@@ -54,14 +54,34 @@ class Pbg {
 
   setOpponent(image, name, health,maxHealth,level,moves,bag){
     this.opponent = new Player();
+
+  play(){
+    this.actions.forEach(function(action){
+      action.play();
+    });
   }
 }
 
 class AbstractAction {
-  constructor(){
+  constructor(canvas){
     if(new.target === AbstractAction){
       throw new TypeError("Cannot construct abstract instance: AbstractAction");
     }
+    this.canvas = canvas;
+  }
+  play(){}
+}
+
+class IntroAction extends AbstractAction {
+  constructor(c){
+    super(c);
+    this.player = new fabric.Image.fromURL('images/player.png');
+  }
+  play(){
+    this.init();
+  }
+  init(){
+    this.canvas.add(this.player);
   }
 }
 
@@ -256,14 +276,14 @@ class TextAction extends AbstractAction {
 }
 
 class AttackAction extends AbstractAction {
-  constructor() {
-    super();
+  constructor(c) {
+    super(c);
   }
 }
 
 class UseObjectAction extends AbstractAction {
-  constructor() {
-    super();
+  constructor(c) {
+    super(c);
 
   }
 }
