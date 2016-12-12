@@ -33,11 +33,6 @@ class Pbg {
     }
   }
 
-  play() {
-      var intro = new TextAction("");
-      intro.play(this.canvas);
-  }
-
   // setters
   setCanvas(canvasID) {
     if(typeof fabric !== 'undefined'){
@@ -54,6 +49,7 @@ class Pbg {
 
   setOpponent(image, name, health,maxHealth,level,moves,bag){
     this.opponent = new Player();
+  }
 
   play(){
     this.actions.forEach(function(action){
@@ -85,38 +81,20 @@ class IntroAction extends AbstractAction {
   }
 }
 
-class IntroAction extends AbstractAction {
-  constructor() {
-    super();
-  }
-
-  play(canvas){
-    var imgtest = fabric.Image.fromURL('sprites/full_panel.png', function(img) {
-      img.scaleToWidth(canvas.getWidth());
-      img.set({
-        left: 0,
-        top: canvas.getHeight() - img.getHeight(),
-        angle: 0
-      });
-      //canvas.add(img);
-    });
-
-
-  }
-}
 
 class TextAction extends AbstractAction {
-    constructor(fullText) {
-      super();
-      this.fullText = fullText;
+    constructor(c) {
+      super(c);
+      this.fullText = "HEYYY";
+
     }
 
-    play(canvas){
-      var words = this.fullText.split(" ");
+    play(){
+      //var words = this.fullText.split(" ");
       /*for each(word in words){
 
       }*/
-
+      var canvas = this.canvas;
       for(var i=0;i<15;i++){
         fabric.Image.fromURL("sprites/letter/a.png", function(img) {
           img.scaleToWidth(25);

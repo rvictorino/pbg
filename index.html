@@ -15,12 +15,14 @@
   <script src="fabric.min.js" ></script>
   <script src="pbg.js" ></script>
   <script>
-    var pbg = new Pbg();
-    pbg.addAction(new IntroAction(pbg.canvas));
+    var pbg = new Pbg("canvas");
+
     console.log(pbg.actions[0]);
-    pbg.addAction(new AttackAction(pbg.canvas));
-    pbg.addAction(new AttackAction(pbg.canvas));
-    pbg.addAction(new UseObjectAction(pbg.canvas));
+    pbg.addAction(new TextAction(pbg.canvas));
+    //pbg.addAction(new IntroAction(pbg.canvas));
+    //pbg.addAction(new AttackAction(pbg.canvas));
+    //pbg.addAction(new AttackAction(pbg.canvas));
+    //pbg.addAction(new UseObjectAction(pbg.canvas));
     pbg.play();
     pbg.generateGif();
     var player = new Player();
