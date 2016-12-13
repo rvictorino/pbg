@@ -83,27 +83,88 @@ class IntroAction extends AbstractAction {
 
 
 class TextAction extends AbstractAction {
-    constructor(c) {
+    constructor(c, fullText) {
       super(c);
-      this.fullText = "HEYYY";
-
+      this.fullText = "Cest un gen de combat";
+      this.textObject = [];
     }
 
     play(){
-      //var words = this.fullText.split(" ");
-      /*for each(word in words){
-
-      }*/
+      var words = this.fullText.split(" ");
+      var letterInLine = 0;
+      var line = 1;
       var canvas = this.canvas;
-      for(var i=0;i<15;i++){
-        fabric.Image.fromURL("sprites/letter/a.png", function(img) {
-          img.scaleToWidth(25);
-          canvas.add(img).renderAll();
-        },{
-          left: 30*i,
-        });
-      }
+      var time = 0;
+      var timeIncrement = 100;
 
+      new fabric.Image.fromURL("sprites/full_panel.png", function(img) {
+        img.scaleToWidth(canvas.getWidth());
+        img.set({
+          left: 0,
+          top: canvas.getHeight() - img.getHeight(),
+        });
+        canvas.add(img);
+      });
+
+      var line1StartId = 1;
+      var line2StartId = 0;
+      console.log(line1StartId);
+
+      for (var word in words){
+        if(words[word].length + letterInLine > 16){
+          var _this = this;
+          this.fillLineWithSpace(canvas,line,letterInLine,time);
+          time+=timeIncrement;
+          line = (line == 1 ? 2 : 1);
+          letterInLine = 0;
+        }
+        var letters = words[word].split("");
+        for (var letter in letters){
+            var _this = this;
+            this.drawLetter(canvas,_this.getImagePathFromChar(letters[letter]), line, letterInLine++, time,(["p","g","q","y","j"].indexOf(letters[letter]) >= 0 ? 1 : 0));
+            time+=timeIncrement;
+        }
+        if(letterInLine < 15){
+          var _this = this;
+          this.drawSpace(canvas,line,letterInLine++,time);
+          time+=timeIncrement;
+        }
+      }
+    }
+
+    drawLetter(canvas,letterImgPath,line,pos,time,downLetter){
+      var self = this;
+      setTimeout(function(){
+      self.textObject.push( new fabric.Image.fromURL(letterImgPath, function(img) {
+        img.scaleToWidth((canvas.getWidth()/18));
+        canvas.add(img);
+
+      },{
+        top: canvas.getHeight()-(canvas.getHeight()/(4*line)-downLetter*(canvas.getHeight()/140)),
+        left: (canvas.getWidth()/20)+(canvas.getWidth()/18)*pos,
+      }));
+      },time);
+    }
+
+    fillLineWithSpace(canvas,line,startPos,time){
+      var pos = startPos;
+      while(pos < 16){
+        this.drawSpace(canvas,line,pos,time);
+        pos++;
+      }
+    }
+
+    drawSpace(canvas,line,pos,time){
+      var canvas = this.canvas;
+      setTimeout(function(){
+        fabric.Image.fromURL("sprites/letter/space.png", function(img) {
+          img.scaleToWidth((canvas.getWidth()/18));
+          canvas.add(img);
+        },{
+          top: canvas.getHeight()-(canvas.getHeight()/(4*line)),
+          left: (canvas.getWidth()/20)+(canvas.getWidth()/18)*pos,
+        });
+      },time);
 
     }
 
@@ -248,9 +309,17 @@ class TextAction extends AbstractAction {
           case "+":
             return 'sprites/letter/female.png';
           default:
-            return 'sprites/letter/?.png';
+            return 'sprites/letter/int.png';
         }
     }
+    sleep(delay) {
+      var start = new Date().getTime();
+      while (new Date().getTime() < start + delay){}
+    }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 class AttackAction extends AbstractAction {
