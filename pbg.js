@@ -71,7 +71,7 @@ class AbstractAction {
 class IntroAction extends AbstractAction {
   constructor(c){
     super(c);
-    this.player = new fabric.Image.fromURL('images/player.png');
+
   }
   play(){
     this.init();
@@ -85,8 +85,10 @@ class IntroAction extends AbstractAction {
 class TextAction extends AbstractAction {
     constructor(c, fullText) {
       super(c);
-      this.fullText = "Cest un gen de combat";
+      this.fullText = "abcypq,'";
       this.textObject = [];
+      this.startImageId = 1;
+      this.endImageId = 1;
     }
 
     play(){
@@ -106,41 +108,51 @@ class TextAction extends AbstractAction {
         canvas.add(img);
       });
 
-      var line1StartId = 1;
-      var line2StartId = 0;
-      console.log(line1StartId);
+      this.startImageId = this.canvas.item.length;
+      this.endImageId = this.startImageId;
 
       for (var word in words){
         if(words[word].length + letterInLine > 16){
           var _this = this;
           this.fillLineWithSpace(canvas,line,letterInLine,time);
+          this.endImageId += (16 - letterInLine);
           time+=timeIncrement;
+          if(line==2){
+
+            this.clearTextBox(canvas,time,this.startImageId,this.endImageId);
+            this.endImageId=this.startImageId;
+          }
           line = (line == 1 ? 2 : 1);
           letterInLine = 0;
         }
         var letters = words[word].split("");
         for (var letter in letters){
-            var _this = this;
-            this.drawLetter(canvas,_this.getImagePathFromChar(letters[letter]), line, letterInLine++, time,(["p","g","q","y","j"].indexOf(letters[letter]) >= 0 ? 1 : 0));
+            this.drawLetter(canvas, letters[letter], line, letterInLine++, time);
+            this.endImageId++;
             time+=timeIncrement;
         }
         if(letterInLine < 15){
           var _this = this;
           this.drawSpace(canvas,line,letterInLine++,time);
+          this.endImageId++;
           time+=timeIncrement;
         }
       }
     }
 
-    drawLetter(canvas,letterImgPath,line,pos,time,downLetter){
+    drawLetter(canvas, letter, line, pos, time){
+      var letterImgPath = this.getImagePathFromChar(letter);
+      var topPos = canvas.getHeight()-(canvas.getHeight()/(4*line));
+      topPos+=(["p","g","q","y","j"].indexOf(letter) >= 0 ? 1 : 0)*(canvas.getHeight()/140);
+      topPos+=([","].indexOf(letter) >= 0 ? 3 : 0)*(canvas.getHeight()/140);
+      topPos-=(["'"].indexOf(letter) >= 0 ? 2 : 0)*(canvas.getHeight()/140);
       var self = this;
       setTimeout(function(){
       self.textObject.push( new fabric.Image.fromURL(letterImgPath, function(img) {
         img.scaleToWidth((canvas.getWidth()/18));
         canvas.add(img);
-
       },{
-        top: canvas.getHeight()-(canvas.getHeight()/(4*line)-downLetter*(canvas.getHeight()/140)),
+        top: topPos,
         left: (canvas.getWidth()/20)+(canvas.getWidth()/18)*pos,
       }));
       },time);
@@ -165,7 +177,14 @@ class TextAction extends AbstractAction {
           left: (canvas.getWidth()/20)+(canvas.getWidth()/18)*pos,
         });
       },time);
+    }
 
+    clearTextBox(canvas,time,minId,maxId){
+      setTimeout(function(){
+        for(var i = minId; i < maxId; i++){
+          canvas.item(minId).remove();
+        }
+      },time);
     }
 
     getImagePathFromChar(char){
@@ -277,6 +296,8 @@ class TextAction extends AbstractAction {
           case ".":
             return 'sprites/letter/period.png';
           case ",":
+            return 'sprites/letter/comma.png';
+          case "'":
             return 'sprites/letter/comma.png';
           case ":":
             return 'sprites/letter/colon.png';
