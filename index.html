@@ -7,9 +7,6 @@
   <title>Pokemon Battle Generator</title>
 </head>
 <body>
-  <p id="testImage">
-
-  </p>
   <canvas id="canvas" width="557px" height="500px">
   <script src="gif.js" ></script>
   <script src="fabric.min.js" ></script>
@@ -17,9 +14,11 @@
   <script>
     var pbg = new Pbg("canvas");
 
-    console.log(pbg.actions[0]);
-    pbg.addAction(new TextAction(pbg.canvas));
-    //pbg.addAction(new IntroAction(pbg.canvas));
+    var player = new Player("images/player.png");
+    var opponent = new Player("images/opponent.png");
+
+    pbg.addAction(new IntroAction(pbg.canvas, player, opponent));
+    pbg.addAction(new TextAction(pbg.canvas, "hello darkness my old friend"));
     //pbg.addAction(new AttackAction(pbg.canvas));
     //pbg.addAction(new AttackAction(pbg.canvas));
     //pbg.addAction(new UseObjectAction(pbg.canvas));
